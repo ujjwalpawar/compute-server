@@ -45,6 +45,11 @@ compute.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-S
 compute.hardware_type = 'd430'
 compute.routable_control_ip = True
 
+tour = IG.Tour()
+tour.Description(IG.Tour.TEXT,kube_description)
+tour.Instructions(IG.Tour.MARKDOWN,kube_instruction)
+rspec.addTour(tour)
+
 #
 # Print and go!
 #

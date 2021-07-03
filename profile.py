@@ -40,7 +40,7 @@ params = pc.bindParameters()
 pc.verifyParameters()
 
 rspec = PG.Request()
-compute = rspec.RawPC("epc")
+compute = rspec.RawPC("compute")
 compute.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
 compute.hardware_type = 'd430'
 compute.routable_control_ip = True

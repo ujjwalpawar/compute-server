@@ -37,6 +37,8 @@ pip3 install virtualenvwrapper
 pip3 install Jinja2
 pip3 install colorama
 pip3 install sh==1.12.1
+pip3 install sklearn
+pip3 install pandas
 
 # Download MobileInsight 6.0.0 beta
 wget https://github.com/mobile-insight/mobileinsight-core/releases/download/6.0.0-beta/MobileInsight-6.0.0-beta.tar.gz

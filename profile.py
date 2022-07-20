@@ -2,34 +2,28 @@
 
 kube_description= \
 """
-Compute Server
+Compute Cluster
 """
 kube_instruction= \
 """
 Not instructions yet
 """
 
-#
-# Standard geni-lib/portal libraries
-#
+
 import geni.portal as portal
 import geni.rspec.pg as PG
-import geni.rspec.emulab as elab
 import geni.rspec.igext as IG
-import geni.urn as URN
 
 
-
-#
-# PhantomNet extensions.
-#
-import geni.rspec.emulab.pnext as PN 
-
-#
-# This geni-lib script is designed to run in the PhantomNet Portal.
-#
 pc = portal.Context()
+rspec = PG.Request()
 
+
+# Profile parameters.
+pc.defineParameter("machineNum", "Number of Machines",
+                   portal.ParameterType.INTEGER, 1)
+pc.defineParameter("Hardware", "Machine Hardware",
+                   portal.ParameterType.STRING,"d430",[("d430","d430"),("d710","d710"), ("d820", "d820"), ("pc3000", "pc3000")])
 
 params = pc.bindParameters()
 
@@ -39,16 +33,31 @@ params = pc.bindParameters()
 #
 pc.verifyParameters()
 
-rspec = PG.Request()
-compute = rspec.RawPC("compute")
-compute.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
-compute.hardware_type = 'd430'
-compute.routable_control_ip = True
+
 
 tour = IG.Tour()
 tour.Description(IG.Tour.TEXT,kube_description)
 tour.Instructions(IG.Tour.MARKDOWN,kube_instruction)
 rspec.addTour(tour)
+
+
+# Network
+netmask="255.255.255.0"
+network = rspec.Link("Network")
+network.link_multiplexing = True
+network.vlan_tagging = True
+network.best_effort = True
+
+
+# Machines
+for i in range(0,params.machineNum):
+    node = rspec.RawPC("node" + str(i))
+    node.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
+    node.hardware_type = params.Hardware
+    iface = node.addInterface()
+    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1), netmask))
+    network.addInterface(iface)
+
 
 #
 # Print and go!

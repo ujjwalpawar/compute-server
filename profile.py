@@ -53,7 +53,7 @@ network.best_effort = True
 if params.OS == 'ubuntu20':
     os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU20-64-STD'
 elif params.OS == 'ubuntu22':
-    os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD'
+    os = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-BETA'
 else:
     os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
 

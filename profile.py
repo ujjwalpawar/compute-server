@@ -31,11 +31,11 @@ pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
                    portal.ParameterType.BOOLEAN, True,
                    advanced=True)
 
-pc.defineParameter("isolcpus_num", "Number of Isolated CPUs",
+pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
                    portal.ParameterType.INTEGER, 1,
                    advanced=True)
 
-pc.defineParameter("isolcpus_numa", "Isolated CPUs in the same NUMA node (True or False)",
+pc.defineParameter("isolcpusNuma", "Isolated CPUs in the same NUMA node (True or False)",
                    portal.ParameterType.BOOLEAN, True,
                    advanced=True)
 
@@ -73,11 +73,11 @@ profileConfigs = ""
 # Configuration parsing
 if params.isolcpus == True:
     profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU="/local/repository/scripts/isolcpus.sh" '
-    if params.isolcpu_numa == True:
+    if params.isolcpuNuma == True:
         numa = "yes"
     else:
         numa = "no"
-    profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU_ARGS="%d %s" ' % (params.isolcpus_num, numa)
+    profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU_ARGS="%d %s" ' % (params.isolcpusNumber, numa)
 
 # Machines
 for i in range(0,params.machineNum):

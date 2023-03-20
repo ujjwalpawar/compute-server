@@ -29,7 +29,7 @@ pc.defineParameter("OS", "Operating System",
 
 pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
                    portal.ParameterType.BOOLEAN, True,
-                   advance=True)
+                   advanced=True)
 
 pc.defineParameter("isolcpus_num", "Number of Isolated CPUs",
                    portal.ParameterType.INTEGER, 1,
@@ -37,7 +37,7 @@ pc.defineParameter("isolcpus_num", "Number of Isolated CPUs",
 
 pc.defineParameter("isolcpus_numa", "Isolated CPUs in the same NUMA node (True or False)",
                    portal.ParameterType.BOOLEAN, True,
-                   advance=True)
+                   advanced=True)
 
 params = pc.bindParameters()
 

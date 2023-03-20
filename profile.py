@@ -73,7 +73,7 @@ profileConfigs = ""
 # Configuration parsing
 if params.isolcpus == True:
     profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU="/local/repository/scripts/isolcpus.sh" '
-    if params.isolcpuNuma == True:
+    if params.isolcpusNuma == True:
         numa = "yes"
     else:
         numa = "no"

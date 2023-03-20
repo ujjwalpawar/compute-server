@@ -27,6 +27,18 @@ pc.defineParameter("Hardware", "Machine Hardware",
 pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
+pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
+                   portal.ParameterType.BOOLEAN, True,
+                   advance=True)
+
+pc.defineParameter("isolcpus_num", "Number of Isolated CPUs",
+                   portal.ParameterType.INTEGER, 1,
+                   advanced=True)
+
+pc.defineParameter("isolcpus_numa", "Isolated CPUs in the same NUMA node (True or False)",
+                   portal.ParameterType.BOOLEAN, True,
+                   advance=True)
+
 params = pc.bindParameters()
 
 #
@@ -57,11 +69,22 @@ elif params.OS == 'ubuntu22':
 else:
     os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
 
+profileConfigs = ""
+# Configuration parsing
+if params.isolcpus == True:
+    profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU="/local/repository/scripts/isolcpus.sh" '
+    if params.isolcpu_numa == True:
+        numa = "yes"
+    else:
+        numa = "no"
+    profileConfigs += 'PROFILE_CONF_COMMAND_ISOLCPU_ARGS="%d %s" ' % (params.isolcpus_num, numa)
+
 # Machines
 for i in range(0,params.machineNum):
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
     node.hardware_type = params.Hardware
+    node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1), netmask))
     network.addInterface(iface)

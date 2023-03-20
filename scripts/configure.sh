@@ -38,5 +38,6 @@ do
     bash -c "$(eval echo \${$cmd}) $(eval echo \${$ARGS})"
 done
 
+touch /local/.rebooted
 # Reboot to apply changes
-reboot
+sudo reboot

@@ -27,12 +27,17 @@ pc.defineParameter("Hardware", "Machine Hardware",
 pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
+# Isolated CPU parameters
 pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
                    portal.ParameterType.BOOLEAN, False,
                    advanced=True)
-
 pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
                    portal.ParameterType.INTEGER, 1,
+                   advanced=True)
+
+# Kubernetes parameters
+pc.defineParameter("k8s", "Install Kubernetes (True or False)",
+                   portal.ParameterType.BOOLEAN, False,
                    advanced=True)
 
 params = pc.bindParameters()
@@ -65,7 +70,25 @@ elif params.OS == 'ubuntu22':
 else:
     os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
 
+# Variable that stores configuration scripts and arguments
 profileConfigs = ""
+
+# Kubernetes configuration
+k8s_ip = 0 # This is to calculate the IPs when K8s is installed
+if params.k8s == True:
+    # Declare the master node
+    master = rspec.RawPC("master")
+    master.hardware_type = params.Hardware
+    master.routable_control_ip = True
+    master.disk_image = os
+    iface = master.addInterface()
+    iface.addAddress(PG.IPv4Address("192.168.1.1", netmask))
+    network.addInterface(iface)
+    master.addService(PG.Execute(shell="bash", command="/local/repository/scripts/master.sh"))
+    k8s_ip = 1
+    # Configure script for the slave nodes
+    profileConfigs += "PROFILE_CONF_COMMAND_K8S='/local/repository/scripts/slave.sh' "
+
 # IsolCPU configuration
 if params.isolcpus == True:
     profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU='/local/repository/scripts/isolcpus.sh' "
@@ -78,7 +101,7 @@ for i in range(0,params.machineNum):
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware
     iface = node.addInterface()
-    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1), netmask))
+    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip), netmask))
     network.addInterface(iface)
 
 

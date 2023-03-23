@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # Redirect output to log file
-exec >> /local/deploy.log
+exec >> /local/configuration.log
 exec 2>&1
 
+echo "Configuring machine..."
+
 if [ -f "/local/.rebooted" ]; then
+    echo "Rebooted"
     # Configurations that are required after rebooting
     exit 0
 fi

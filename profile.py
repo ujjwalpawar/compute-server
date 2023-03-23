@@ -70,7 +70,7 @@ else:
     os = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD'
 
 profileConfigs = ""
-# Configuration parsing
+# IsolCPU configuration
 if params.isolcpus == True:
     profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU=\"/local/repository/scripts/isolcpus.sh\" "
     if params.isolcpusNuma == True:
@@ -83,8 +83,8 @@ if params.isolcpus == True:
 for i in range(0,params.machineNum):
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
-    node.hardware_type = params.Hardware
     node.addService(PG.Execute(shell="bash", command="/local/repository/scripts/configure.sh"))
+    node.hardware_type = params.Hardware
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1), netmask))
     network.addInterface(iface)

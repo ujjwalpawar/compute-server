@@ -4,14 +4,18 @@
 exec >> /local/configuration.log
 exec 2>&1
 
-echo "Configuring machine..."
-
 if [ -f "/local/.rebooted" ]; then
     # Configurations that are required after rebooting
+    echo "Executing after-reboot configurations"
+
+    echo "Done!"
+    date
+    touch /local/.rebooted
+    echo "Rebooting..."
     exit 0
 fi
 
-echo "Executing one-time configurations..."
+echo "Executing one-time configurations"
 
 # Configurations that require reboot
 
@@ -25,7 +29,6 @@ echo "Executing one-time configurations..."
 PROFILE_CONFIG_COMMANDS=$(set | grep "PROFILE_CONF_COMMAND_" | awk -F "=" '{print $1}')
 
 # Filter commands
-COMMAND_LIST=()
 declare -a COMMAND_LIST=()
 for s in ${PROFILE_CONFIG_COMMANDS[@]}
 do

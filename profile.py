@@ -28,15 +28,11 @@ pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
 pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
-                   portal.ParameterType.BOOLEAN, True,
+                   portal.ParameterType.BOOLEAN, False,
                    advanced=True)
 
 pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
                    portal.ParameterType.INTEGER, 1,
-                   advanced=True)
-
-pc.defineParameter("isolcpusNuma", "Isolated CPUs in the same NUMA node (True or False)",
-                   portal.ParameterType.BOOLEAN, True,
                    advanced=True)
 
 params = pc.bindParameters()
@@ -73,11 +69,7 @@ profileConfigs = ""
 # IsolCPU configuration
 if params.isolcpus == True:
     profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU='/local/repository/scripts/isolcpus.sh' "
-    if params.isolcpusNuma == True:
-        numa = "yes"
-    else:
-        numa = "no"
-    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU_ARGS='%d %s' " % (params.isolcpusNumber, numa)
+    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU_ARGS='%d' " % (params.isolcpusNumber)
 
 # Machines
 for i in range(0,params.machineNum):

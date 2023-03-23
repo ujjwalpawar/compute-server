@@ -28,7 +28,6 @@ if [ "$#" -ne 1 ]; then
 fi
 
 # Installing dependencies
-sudo apt update
 sudo apt install -y jq
 
 echo "Isolating CPUs..."

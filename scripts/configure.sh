@@ -15,6 +15,9 @@ if [ -f "/local/.rebooted" ]; then
     exit 0
 fi
 
+# Updating APT repos for installation scripts
+sudo apt update
+
 echo "Executing one-time configurations"
 
 # Configurations that require reboot

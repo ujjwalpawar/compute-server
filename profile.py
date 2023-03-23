@@ -2,11 +2,11 @@
 
 kube_description= \
 """
-Compute Cluster
+Development Cluster
 """
 kube_instruction= \
 """
-Not instructions yet
+Author: Jon Larrea
 """
 
 
@@ -28,7 +28,7 @@ pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
 # Isolated CPU parameters
-pc.defineParameter("isolcpus", "Isolated CPUs (True or False)",
+pc.defineParameter("isolcpus", "Isolate CPUs",
                    portal.ParameterType.BOOLEAN, False,
                    advanced=True)
 pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
@@ -36,7 +36,7 @@ pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
                    advanced=True)
 
 # Kubernetes parameters
-pc.defineParameter("k8s", "Install Kubernetes (True or False)",
+pc.defineParameter("k8s", "Install Kubernetes",
                    portal.ParameterType.BOOLEAN, False,
                    advanced=True)
 

@@ -7,10 +7,11 @@ exec 2>&1
 echo "Configuring machine..."
 
 if [ -f "/local/.rebooted" ]; then
-    echo "Rebooted"
     # Configurations that are required after rebooting
     exit 0
 fi
+
+echo "Executing one-time configurations..."
 
 # Configurations that require reboot
 
@@ -41,6 +42,10 @@ do
     bash -c "$(eval echo \${$cmd}) $(eval echo \${$ARGS})"
 done
 
+echo "Done!"
+date
 touch /local/.rebooted
+echo "Rebooting..."
+echo ""
 # Reboot to apply changes
 sudo reboot

@@ -72,18 +72,18 @@ else:
 profileConfigs = ""
 # IsolCPU configuration
 if params.isolcpus == True:
-    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU=\"/local/repository/scripts/isolcpus.sh\" "
+    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU='/local/repository/scripts/isolcpus.sh' "
     if params.isolcpusNuma == True:
         numa = "yes"
     else:
         numa = "no"
-    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU_ARGS=\"%d %s\" " % (params.isolcpusNumber, numa)
+    profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU_ARGS='%d %s' " % (params.isolcpusNumber, numa)
 
 # Machines
 for i in range(0,params.machineNum):
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
-    node.addService(PG.Execute(shell="bash", command="/local/repository/scripts/configure.sh"))
+    node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1), netmask))

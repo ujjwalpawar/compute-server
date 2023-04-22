@@ -3,7 +3,7 @@
 # Define storage folder
 STORAGEDIR=/storage
 # Create folder
-mkdir -p ${STORAGEDIR}
+sudo mkdir -p ${STORAGEDIR}
 
 # Create disk space
 sudo /usr/local/etc/emulab/mkextrafs.pl -f ${STORAGEDIR}

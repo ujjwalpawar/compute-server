@@ -8,6 +8,8 @@ sudo mkdir -p ${STORAGEDIR}
 # Create disk space
 sudo /usr/local/etc/emulab/mkextrafs.pl -f ${STORAGEDIR}
 
+chmod 777 ${STORAGEDIR}
+
 # Redirect some Docker/k8s dirs into our extra storage.
 for dir in docker kubelet ; do
     sudo mkdir -p $STORAGEDIR/$dir /var/lib/$dir

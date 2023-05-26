@@ -6,14 +6,16 @@ HOME=/users/$(id -un)
 usergid=$(id -ng)
 KUBEHOME="${WORKINGDIR}/kube"
 
-# Create extra storage for K8s
+
+
+# Create extra storage for K8s and containerd
 # Define storage folder (this should match with the path specified in setup-disk.sh)
 STORAGEDIR=/storage
-sudo mkdir -p $STORAGEDIR/kubelet #/var/lib/kubelet
-#sudo mount --bind $STORAGEDIR/kubelet /var/lib/kubelet
-# Point /var/lib/kubelet to /storage/kubelet
-#sudo rmdir /var/lib/kubelet
+sudo mkdir -p $STORAGEDIR/kubelet $STORAGEDIR/containerd
+# kubelet
 sudo ln -s $STORAGEDIR/kubelet/ /var/lib/kubelet
+# containerd
+sudo ln -s $STORAGEDIR/containerd/ /var/lib/containerd
 
 
 # Change login shell for user

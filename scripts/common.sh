@@ -7,9 +7,6 @@ HOME=/users/$(id -un)
 usergid=$(id -ng)
 KUBEHOME="${WORKINGDIR}/kube"
 
-# Create extra storage for K8s and Docker images
-/local/repository/scripts/setup-disk.sh
-
 # Change login shell for user
 sudo chsh -s /bin/bash $username
 
@@ -78,5 +75,8 @@ sudo apt-get -y install kubelet=$K8S_VERSION kubeadm=$K8S_VERSION kubectl=$K8S_V
 sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo systemctl enable kubelet.service
+
+# Create extra storage for K8s and Docker images
+/local/repository/scripts/setup-disk.sh
 
 echo "Kubernetes and Containerd installed"

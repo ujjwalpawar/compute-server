@@ -64,7 +64,7 @@ sudo kubectl create -f config/metrics-server.yaml
 ## Redirect some Docker/k8s dirs into our extra storage.
 #for dir in containerd kubelet ; do
 #    sudo mkdir -p $STORAGEDIR/$dir /var/lib/$dir
-#    sudo mount -o bind $STORAGEDIR/$dir /var/lib/$dir
+#    sudo mount --bind $STORAGEDIR/$dir /var/lib/$dir
 #    echo "$STORAGEDIR/$dir /var/lib/$dir none defaults,bind 0 0" | sudo tee -a /etc/fsta
 #done
 

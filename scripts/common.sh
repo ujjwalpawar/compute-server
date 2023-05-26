@@ -9,9 +9,11 @@ KUBEHOME="${WORKINGDIR}/kube"
 # Create extra storage for K8s
 # Define storage folder (this should match with the path specified in setup-disk.sh)
 STORAGEDIR=/storage
-sudo mkdir -p $STORAGEDIR/kubelet /var/lib/kubelet
-sudo mount --bind $STORAGEDIR/kubelet /var/lib/kubelet
-echo "$STORAGEDIR/kubelet /var/lib/kubelet none defaults,bind 0 0" | $SUDO tee -a /etc/fstab
+sudo mkdir -p $STORAGEDIR/kubelet #/var/lib/kubelet
+#sudo mount --bind $STORAGEDIR/kubelet /var/lib/kubelet
+# Point /var/lib/kubelet to /storage/kubelet
+#sudo rmdir /var/lib/kubelet
+sudo ln -s $STORAGEDIR/kubelet/ /var/lib/kubelet
 
 
 # Change login shell for user

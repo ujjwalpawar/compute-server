@@ -57,18 +57,6 @@ echo "All nodes joined"
 #Deploy metrics server
 sudo kubectl create -f config/metrics-server.yaml
 
-
-# Create extra storage for K8s and Docker images
-# Define storage folder (this should match with the path specified in setup-disk.sh)
-#STORAGEDIR=/storage
-## Redirect some Docker/k8s dirs into our extra storage.
-#for dir in containerd kubelet ; do
-#    sudo mkdir -p $STORAGEDIR/$dir /var/lib/$dir
-#    sudo mount --bind $STORAGEDIR/$dir /var/lib/$dir
-#    echo "$STORAGEDIR/$dir /var/lib/$dir none defaults,bind 0 0" | sudo tee -a /etc/fsta
-#done
-
-
 # to know how much time it takes to instantiate everything.
 echo "Kubernetes Master Setup DONE!"
 date

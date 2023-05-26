@@ -77,6 +77,6 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable kubelet.service
 
 # Create extra storage for K8s and Docker images
-/local/repository/scripts/setup-disk.sh
+#/local/repository/scripts/setup-disk.sh
 
 echo "Kubernetes and Containerd installed"

@@ -41,4 +41,3 @@ echo "Kubernetes Slave Setup DONE!"
 date
 
 touch /local/.slave-ready
-touch /local/.noreboot

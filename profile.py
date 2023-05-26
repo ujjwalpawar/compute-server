@@ -88,6 +88,10 @@ if params.k8s == True:
     k8s_ip = 1
     # Configure script for the slave nodes
     profileConfigs += "PROFILE_CONF_COMMAND_K8S='/local/repository/scripts/slave.sh' "
+    # If K8s is installed without isocpus, disable reboot to safe time
+    if params.isolcpus == False:
+        profileConfigs += "PROFILE_CONF_COMMAND_NOREBOOT='touch' "
+        profileConfigs += "PROFILE_CONF_COMMAND_NOREBOOT_ARGS='/local/.noreboot' "
 
 # IsolCPU configuration
 if params.isolcpus == True:

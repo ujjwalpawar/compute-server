@@ -75,14 +75,4 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo systemctl enable kubelet.service
 
-# Create extra storage for K8s and Docker images
-# Define storage folder (this should match with the path specified in setup-disk.sh)
-STORAGEDIR=/storage
-# Redirect some Docker/k8s dirs into our extra storage.
-for dir in containerd kubelet ; do
-    sudo mkdir -p $STORAGEDIR/$dir /var/lib/$dir
-    sudo mount -o bind $STORAGEDIR/$dir /var/lib/$dir
-    echo "$STORAGEDIR/$dir /var/lib/$dir none defaults,bind 0 0" | sudo tee -a /etc/fsta
-done
-
 echo "Kubernetes and Containerd installed"

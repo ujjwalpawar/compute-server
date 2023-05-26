@@ -20,6 +20,11 @@ sudo apt update
 
 echo "Executing one-time configurations"
 
+
+# Creating extra storage in /storage
+/local/repository/scripts/setup-disk.sh
+
+
 # Configurations that require reboot
 
 # Optional configurations

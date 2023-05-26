@@ -56,7 +56,10 @@ done
 echo "Done!"
 date
 touch /local/.rebooted
-echo "Rebooting..."
-echo ""
-# Reboot to apply changes
-sudo reboot
+
+if [ ! -f "/local/.noreboot" ]; then
+    echo "Rebooting..."
+    echo ""
+    # Reboot to apply changes
+    sudo reboot
+fi

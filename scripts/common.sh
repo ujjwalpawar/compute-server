@@ -11,6 +11,8 @@ KUBEHOME="${WORKINGDIR}/kube"
 STORAGEDIR=/storage
 sudo mkdir -p $STORAGEDIR/kubelet /var/lib/kubelet
 sudo mount --bind $STORAGEDIR/kubelet /var/lib/kubelet
+echo "$STORAGEDIR/kubelet /var/lib/kubelet none defaults,bind 0 0" | $SUDO tee -a /etc/fstab
+
 
 # Change login shell for user
 sudo chsh -s /bin/bash $username

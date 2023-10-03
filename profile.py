@@ -28,11 +28,8 @@ pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
 # Isolated CPU parameters
-pc.defineParameter("isolcpus", "Isolate CPUs",
-                   portal.ParameterType.BOOLEAN, False,
-                   advanced=True)
 pc.defineParameter("isolcpusNumber", "Number of Isolated CPUs",
-                   portal.ParameterType.INTEGER, 1,
+                   portal.ParameterType.INTEGER, 0,
                    advanced=True)
 
 # Kubernetes parameters
@@ -90,7 +87,7 @@ if params.k8s == True:
     profileConfigs += "PROFILE_CONF_COMMAND_K8S='/local/repository/scripts/slave.sh' "
 
 # IsolCPU configuration
-if params.isolcpus == True:
+if params.isolcpusNumber > 0:
     profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU='/local/repository/scripts/isolcpus.sh' "
     profileConfigs += "PROFILE_CONF_COMMAND_ISOLCPU_ARGS='%d' " % (params.isolcpusNumber)
 else:

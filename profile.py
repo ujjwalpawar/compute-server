@@ -23,7 +23,7 @@ rspec = PG.Request()
 pc.defineParameter("machineNum", "Number of Machines",
                    portal.ParameterType.INTEGER, 1)
 pc.defineParameter("Hardware", "Machine Hardware",
-                   portal.ParameterType.STRING,"d430",[("d430","d430"),("d710","d710"), ("d820", "d820"), ("pc3000", "pc3000")])
+                   portal.ParameterType.STRING,"d430",[("d430","d430"),("d710","d710"), ("d820", "d820"), ("pc3000", "pc3000"), ("d740", "d740"), ("d840", "d840")])
 pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 

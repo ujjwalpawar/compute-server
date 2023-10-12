@@ -134,6 +134,12 @@ for i in range(0,params.machineNum):
     iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip), netmask))
     network.addInterface(iface)
 
+if params.usrpb210 != 'none':
+    b210_nuc_pair_node = request.RawPC("b210-nuc")
+    agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(params.usrpb210)
+    b210_nuc_pair_node.component_manager_id = agg_full_name
+    b210_nuc_pair_node.component_id = "nuc2"
+    b210_nuc_pair_node.disk_image = os
 
 #
 # Print and go!

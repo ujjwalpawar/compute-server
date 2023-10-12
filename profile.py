@@ -64,7 +64,7 @@ usrp_b210_locations = [
 ]
 
 pc.defineParameter("usrpb210", "USRP B210 Location",
-                   portal.ParameterType.STRING,"none",[usrp_b210_locations])
+                   portal.ParameterType.STRING, "none", usrp_b210_locations)
 
 
 params = pc.bindParameters()

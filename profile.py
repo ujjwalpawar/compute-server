@@ -60,7 +60,7 @@ fixed_endpoint_aggregates = [
     ("guesthouse",
      "Guest House"),
 ]
-portal.context.defineStructParameter("b210_nodes", "B210 Radios", [],
+pc.defineStructParameter("b210_nodes", "B210 Radios", [],
                                      multiValue=False,
                                      min=0, max=None,
                                      members=[

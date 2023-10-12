@@ -39,7 +39,8 @@ pc.defineParameter("k8s", "Install Kubernetes",
 
 # USRP Node
 usrp_b210_locations = [
-    ("none", "No USRP"),
+    ("empty",
+     "No USRP"),
     ("web",
      "WEB"),
     ("bookstore",

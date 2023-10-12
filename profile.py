@@ -39,7 +39,7 @@ pc.defineParameter("k8s", "Install Kubernetes",
 
 # USRP Node
 usrp_b210_locations = [
-    ("empty",
+    ("none",
      "No USRP"),
     ("web",
      "WEB"),
@@ -64,7 +64,7 @@ usrp_b210_locations = [
 ]
 
 pc.defineParameter("usrpb210", "USRP B210 Location",
-                   portal.ParameterType.STRING,usrp_b210_locations[0],[usrp_b210_locations])
+                   portal.ParameterType.STRING,"none",[usrp_b210_locations])
 
 
 params = pc.bindParameters()

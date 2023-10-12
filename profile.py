@@ -62,6 +62,7 @@ fixed_endpoint_aggregates = [
 ]
 pc.defineStructParameter("b210_nodes", "B210 Radios", [],
                                      multiValue=False,
+                                     itemDefaultValue= {},
                                      min=0, max=None,
                                      members=[
                                          portal.Parameter(

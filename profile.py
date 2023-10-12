@@ -64,7 +64,7 @@ usrp_b210_locations = [
 ]
 
 pc.defineParameter("usrpb210", "USRP B210 Location",
-                   portal.ParameterType.STRING, "none", usrp_b210_locations)
+                   portal.ParameterType.STRING, "none", usrp_b210_locations, advance=True)
 
 
 params = pc.bindParameters()
@@ -135,7 +135,7 @@ for i in range(0,params.machineNum):
     network.addInterface(iface)
 
 if params.usrpb210 != 'none':
-    b210_nuc_pair_node = request.RawPC("b210-nuc")
+    b210_nuc_pair_node = request.RawPC("b210-{0}-nuc".format(params.usrpb210))
     agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(params.usrpb210)
     b210_nuc_pair_node.component_manager_id = agg_full_name
     b210_nuc_pair_node.component_id = "nuc2"

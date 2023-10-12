@@ -38,7 +38,8 @@ pc.defineParameter("k8s", "Install Kubernetes",
                    advanced=True)
 
 # USRP Node
-fixed_endpoint_aggregates = [
+usrp_b210_locations = [
+    ('none', "No USRP"),
     ("web",
      "WEB"),
     ("bookstore",
@@ -60,19 +61,9 @@ fixed_endpoint_aggregates = [
     ("guesthouse",
      "Guest House"),
 ]
-pc.defineStructParameter("b210_nodes", "B210 Radios", [],
-                                     multiValue=False,
-                                     itemDefaultValue= {},
-                                     min=0, max=None,
-                                     members=[
-                                         portal.Parameter(
-                                             "aggregate_id",
-                                             "Fixed Endpoint B210",
-                                             portal.ParameterType.STRING,
-                                             fixed_endpoint_aggregates[0],
-                                             fixed_endpoint_aggregates)
-                                     ],
-                                    )
+
+pc.defineParameter("usrpb210", "USRP B210 Location",
+                   portal.ParameterType.STRING,usrp_b210_locations[0],[usrp_b210_locations])
 
 
 params = pc.bindParameters()

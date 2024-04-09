@@ -1,5 +1,5 @@
 #K8S_VERSION="1.26.1-00"
-K8S_VERSION="1.24.14-00"
+K8S_VERSION="1.24.14-1.1"
 WORKINGDIR='/local/repository'
 username=$(id -un)
 HOME=/users/$(id -un)
@@ -38,6 +38,12 @@ sudo apt-get update
 
 # Install pre-reqs
 sudo apt-get -y install apt-transport-https xgrep jq
+
+# Patch Kubernetes issue by adding new apt source
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo mkdir -m 755 /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.24/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.24/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # Disable swapoff
 sudo swapoff -a

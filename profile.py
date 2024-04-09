@@ -135,7 +135,7 @@ for i in range(0,params.machineNum):
     network.addInterface(iface)
 
 if params.usrpb210 != 'none':
-    b210_nuc_pair_node = rspec.RawPC("b210-%s-%s"%(params.usrpb210, "nuc2"))
+    b210_nuc_pair_node = rspec.RawPC("b210-nuc")
     agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(params.usrpb210)
     b210_nuc_pair_node.component_manager_id = agg_full_name
     b210_nuc_pair_node.component_id = "nuc2"

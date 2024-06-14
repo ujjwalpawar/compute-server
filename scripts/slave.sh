@@ -36,6 +36,7 @@ sudo kubeadm join master:6443 --token $master_token --discovery-token-unsafe-ski
 
 # if it complains that "[ERROR Port-10250]: Port 10250 is in use", kill the process.
 # if it complains some file already exist, remove those. [ERROR FileAvailable--etc-kubernetes-pki-ca.crt]: /etc/kubernetes/pki/ca.crt already exists
+sudo kubectl apply -f /local/repository/config/usrp.yaml
 
 echo "Kubernetes Slave Setup DONE!"
 date

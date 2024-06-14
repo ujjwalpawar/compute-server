@@ -32,6 +32,7 @@ sudo chown ${username}:${usergid} $KUBEHOME/admin.conf
 # Install Flannel. See https://github.com/coreos/flannel
 sudo kubectl apply -f /local/repository/config/flannel-network-conf.yaml
 
+
 # Allow scheduling of pods on master
 kubectl taint node $(kubectl get nodes -o json | jq -r .items[0].metadata.name) node-role.kubernetes.io/master:NoSchedule-
 

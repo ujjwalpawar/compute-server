@@ -93,7 +93,7 @@ pc.defineStructParameter(
     "fixed_radios_nuc1", "Fixed Endpoint Radios(NUC1)", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed endpoint NUC+B210/COTSUE radios to allocate.",
+    multiValueTitle="Fixed endpoint(NUC1) NUC+B210/COTSUE radios to allocate.",
     members=[
         portal.Parameter(
             "fe_id",
@@ -110,7 +110,7 @@ pc.defineStructParameter(
     "fixed_radios_nuc2", "Fixed Endpoint Radios(NUC2)", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed endpoint NUC+B210/COTSUE radios to allocate.",
+    multiValueTitle="Fixed endpoint(NUC2) NUC+B210/COTSUE radios to allocate.",
     members=[
         portal.Parameter(
             "fe_id",

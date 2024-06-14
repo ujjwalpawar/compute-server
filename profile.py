@@ -217,7 +217,7 @@ for idx, dense_radio in enumerate(params.dense_radios):
 
 for idx, fixed_radio in enumerate(params.fixed_radios):
     count += 1
-    node = rspec.RawPC("fixed-{}".format(fixed_radio.device.split("-")[-1]))
+    node = rspec.RawPC("fixed-{}".format(fixed_radio.fe_id))
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware

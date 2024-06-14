@@ -2,11 +2,11 @@
 
 kube_description= \
 """
-Development Cluster
+Development Cluster with USRP
 """
 kube_instruction= \
 """
-Author: Jon Larrea
+Author: Jon Larrea and Ujjwal Pawar
 """
 
 
@@ -63,9 +63,9 @@ pc.defineStructParameter(
     ]
 )
 
-fixed_radios = [
+fixed_radios_nuc1 = [
     ("web", "WEB, nuc1"),
-    ("bookstore", "Bookstore, nuc2"),
+    ("bookstore", "Bookstore, nuc1"),
     ("humanities", "Humanities, nuc1"),
     ("law73", "Law 73, nuc1"),
     ("ebc", "EBC, nuc1"),
@@ -76,8 +76,21 @@ fixed_radios = [
     ("guesthouse", "Guest House, nuc1"),
 ]
 
+fixed_radios_nuc2 = [
+    ("web", "WEB, nuc2"),
+    ("bookstore", "Bookstore, nuc2"),
+    ("humanities", "Humanities, nuc2"),
+    ("law73", "Law 73, nuc2"),
+    ("ebc", "EBC, nuc2"),
+    ("madsen", "Madsen, nuc2"),
+    ("sagepoint", "Sage Point, nuc2"),
+    ("moran", "Moran, nuc2"),
+    ("cpg", "Central Parking Garage, nuc2"),
+    ("guesthouse", "Guest House, nuc2"),
+]
+
 pc.defineStructParameter(
-    "fixed_radios", "Fixed Endpoint Radios", [],
+    "fixed_radios_nuc1", "Fixed Endpoint Radios(NUC1)", [],
     multiValue=True,
     min=0,
     multiValueTitle="Fixed endpoint NUC+B210/COTSUE radios to allocate.",
@@ -86,7 +99,24 @@ pc.defineStructParameter(
             "fe_id",
             "SFF Compute + NI B210 device + COTS UE",
             portal.ParameterType.STRING,
-            fixed_radios[0], fixed_radios,
+            fixed_radios_nuc1[0], fixed_radios_nuc1,
+            longDescription="A small form factor compute with attached NI B210 and COTS UE the " \
+                            "given Fixed Endpoint site will be allocated."
+        ),
+    ]
+)
+
+pc.defineStructParameter(
+    "fixed_radios_nuc2", "Fixed Endpoint Radios(NUC2)", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Fixed endpoint NUC+B210/COTSUE radios to allocate.",
+    members=[
+        portal.Parameter(
+            "fe_id",
+            "SFF Compute + NI B210 device + COTS UE",
+            portal.ParameterType.STRING,
+            fixed_radios_nuc2[0], fixed_radios_nuc2,
             longDescription="A small form factor compute with attached NI B210 and COTS UE the " \
                             "given Fixed Endpoint site will be allocated."
         ),
@@ -216,12 +246,24 @@ for idx, dense_radio in enumerate(params.dense_radios):
     count += 1 
 
 
-for idx, fixed_radio in enumerate(params.fixed_radios):
-    node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc2"))
+for idx, fixed_radio in enumerate(params.fixed_radios_nuc1):
+    node = rspec.RawPC("{}-{}".format(fixed_radios_nuc1.fe_id, "nuc1"))
+    # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
+    # node.component_manager_id = agg_full_name
+    node.component_id = "nuc1"
+    node.disk_image = os
+    node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
+    iface = node.addInterface()
+    iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))
+    network.addInterface(iface)
+    count += 1
+
+for idx, fixed_radio in enumerate(params.fixed_radios_nuc2):
+    node = rspec.RawPC("{}-{}".format(fixed_radios_nuc2.fe_id, "nuc2"))
     # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
     # node.component_manager_id = agg_full_name
     node.component_id = "nuc2"
-    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD"
+    node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))

@@ -57,7 +57,7 @@ echo "All nodes joined"
 
 #Deploy metrics server
 sudo kubectl create -f config/metrics-server.yaml
-
+sudo kubectl apply -f /local/repository/config/usrp.yaml
 # to know how much time it takes to instantiate everything.
 echo "Kubernetes Master Setup DONE!"
 date

@@ -205,7 +205,6 @@ for i in range(0,params.machineNum):
     network.addInterface(iface)
 
 for idx, dense_radio in enumerate(params.dense_radios):
-    count += 1
     node = rspec.RawPC("dense-{}".format(dense_radio.device.split("-")[-1]))
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
@@ -214,10 +213,10 @@ for idx, dense_radio in enumerate(params.dense_radios):
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))
     network.addInterface(iface)
+    count += 1
 
 
 for idx, fixed_radio in enumerate(params.fixed_radios):
-    count += 1
     node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc2"))
     agg_full_name = "urn:publicid:IDN+{}.powderwireless.net+authority+cm".format(fixed_radio.fe_id)
     node.component_manager_id = agg_full_name
@@ -227,6 +226,7 @@ for idx, fixed_radio in enumerate(params.fixed_radios):
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))
     network.addInterface(iface)
+    count += 1
 
 #
 # Print and go!

@@ -49,7 +49,7 @@ dense_radios = [
 pc.defineStructParameter(
     "dense_radios", "Dense Site Radios", [],
     multiValue=True,
-    min=1,
+    min=0,
     multiValueTitle="Dense Site NUC+B210 radios to allocate.",
     members=[
         portal.Parameter(

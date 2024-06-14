@@ -13,7 +13,8 @@ Author: Jon Larrea
 import geni.portal as portal
 import geni.rspec.pg as PG
 import geni.rspec.igext as IG
-
+import geni.rspec.emulab.spectrum as spectrum
+import geni.rspec.emulab.pnext as pn
 
 pc = portal.Context()
 rspec = PG.Request()
@@ -37,34 +38,101 @@ pc.defineParameter("k8s", "Install Kubernetes",
                    portal.ParameterType.BOOLEAN, False,
                    advanced=True)
 
-# USRP Node
-usrp_b210_locations = [
-    ("none",
-     "No USRP"),
-    ("web",
-     "WEB"),
-    ("bookstore",
-     "Bookstore"),
-    ("humanities",
-     "Humanities"),
-    ("law73",
-     "Law 73"),
-    ("ebc",
-     "EBC"),
-    ("madsen",
-     "Madsen"),
-    ("sagepoint",
-     "Sage Point"),
-    ("moran",
-     "Moran"),
-    ("cpg",
-     "Central Parking Garage"),
-    ("guesthouse",
-     "Guest House"),
+dense_radios = [
+    ("cnode-mario", "Mario"),
+    ("cnode-moran", "Moran"),
+    ("cnode-guesthouse", "Guesthouse"),
+    ("cnode-ebc", "EBC"),
+    ("cnode-ustar", "USTAR"),
 ]
 
-pc.defineParameter("usrpb210", "USRP B210 Location",
-                   portal.ParameterType.STRING, "none", usrp_b210_locations, advanced=True)
+pc.defineStructParameter(
+    "dense_radios", "Dense Site Radios", [],
+    multiValue=True,
+    min=1,
+    multiValueTitle="Dense Site NUC+B210 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "device",
+            "SFF Compute + NI B210 device",
+            portal.ParameterType.STRING,
+            dense_radios[0], dense_radios,
+            longDescription="A small form factor compute with attached NI B210 device at the given " \
+                            "Dense Deployment site will be allocated."
+        ),
+    ]
+)
+
+fixed_radios = [
+    ("web", "WEB, nuc1"),
+    ("bookstore", "Bookstore, nuc1"),
+    ("humanities", "Humanities, nuc1"),
+    ("law73", "Law 73, nuc1"),
+    ("ebc", "EBC, nuc1"),
+    ("madsen", "Madsen, nuc1"),
+    ("sagepoint", "Sage Point, nuc1"),
+    ("moran", "Moran, nuc1"),
+    ("cpg", "Central Parking Garage, nuc1"),
+    ("guesthouse", "Guest House, nuc1"),
+]
+
+pc.defineStructParameter(
+    "fixed_radios", "Fixed Endpoint Radios", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Fixed endpoint NUC+B210/COTSUE radios to allocate.",
+    members=[
+        portal.Parameter(
+            "fe_id",
+            "SFF Compute + NI B210 device + COTS UE",
+            portal.ParameterType.STRING,
+            fixed_radios[0], fixed_radios,
+            longDescription="A small form factor compute with attached NI B210 and COTS UE the " \
+                            "given Fixed Endpoint site will be allocated."
+        ),
+    ]
+)
+
+portal.context.defineStructParameter(
+    "freq_ranges", "Frequency Ranges To Transmit In",
+    defaultValue=[{"freq_min": 3410.0, "freq_max": 3450.0}],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges to be used for transmission.",
+    members=[
+        portal.Parameter(
+            "freq_min",
+            "Frequency Range Min",
+            portal.ParameterType.BANDWIDTH,
+            3410.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Range Max",
+            portal.ParameterType.BANDWIDTH,
+            3450.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+    ]
+)
+
+pc.defineParameter(
+    name="start_vnc_dense",
+    description="enable noVNC on dense nodes",
+    typ=portal.ParameterType.BOOLEAN,
+    defaultValue=True,
+    advanced=True
+)
+
+pc.defineParameter(
+    name="start_vnc_fixed",
+    description="enable noVNC on fixed endpoint nodes",
+    typ=portal.ParameterType.BOOLEAN,
+    defaultValue=True,
+    advanced=True
+)
+
 
 
 params = pc.bindParameters()
@@ -125,7 +193,9 @@ else:
     profileConfigs += "PROFILE_CONF_COMMAND_NOREBOOT_ARGS='/local/.noreboot' "
 
 # Machines
+count = 0
 for i in range(0,params.machineNum):
+    count += 1
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
@@ -134,12 +204,25 @@ for i in range(0,params.machineNum):
     iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip), netmask))
     network.addInterface(iface)
 
-if params.usrpb210 != 'none':
-    b210_nuc_pair_node = rspec.RawPC("b210-nuc")
-    agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(params.usrpb210)
-    b210_nuc_pair_node.component_manager_id = agg_full_name
-    b210_nuc_pair_node.component_id = "nuc2"
-    b210_nuc_pair_node.disk_image = os
+for i in range(params.dense_radios):
+    count += 1
+    node = rspec.RawPC("dense" + str(i))
+    node.disk_image = os
+    node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
+    node.hardware_type = params.Hardware
+    iface = node.addInterface()
+    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip+count), netmask))
+    network.addInterface(iface)
+
+for i in range(params.fixed_radios):
+    count += 1
+    node = rspec.RawPC("fixed" + str(i))
+    node.disk_image = os
+    node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
+    node.hardware_type = params.Hardware
+    iface = node.addInterface()
+    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip+count), netmask))
+    network.addInterface(iface)
 
 #
 # Print and go!

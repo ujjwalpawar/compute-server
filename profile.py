@@ -222,6 +222,9 @@ for idx, fixed_radio in enumerate(params.fixed_radios):
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
     node.component_id = "nuc1"
+    agg_full_name = "urn:publicid:IDN+{}.powderwireless.net+authority+cm".format(fixed_radio.fe_id)
+    node.component_manager_id = agg_full_name
+
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))
     network.addInterface(iface)

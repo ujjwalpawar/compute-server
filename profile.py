@@ -247,7 +247,7 @@ for idx, dense_radio in enumerate(params.dense_radios):
 
 
 for idx, fixed_radio in enumerate(params.fixed_radios_nuc1):
-    node = rspec.RawPC("{}-{}".format(fixed_radios_nuc1.fe_id, "nuc1"))
+    node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc1"))
     # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
     # node.component_manager_id = agg_full_name
     node.component_id = "nuc1"
@@ -259,7 +259,7 @@ for idx, fixed_radio in enumerate(params.fixed_radios_nuc1):
     count += 1
 
 for idx, fixed_radio in enumerate(params.fixed_radios_nuc2):
-    node = rspec.RawPC("{}-{}".format(fixed_radios_nuc2.fe_id, "nuc2"))
+    node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc2"))
     # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
     # node.component_manager_id = agg_full_name
     node.component_id = "nuc2"

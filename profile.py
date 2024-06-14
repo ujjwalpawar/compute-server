@@ -218,11 +218,12 @@ for idx, dense_radio in enumerate(params.dense_radios):
 
 for idx, fixed_radio in enumerate(params.fixed_radios):
     node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc2"))
-    node.component_manager_id = "urn:publicid:IDN+emulab.net+authority+cm"
+    agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.aggregate_id)
+    node.component_manager_id = agg_full_name
     # node.component_manager_id = agg_full_name
-    node.disk_image = os
-    node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
     node.component_id = "nuc2"
+    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU18-64-STD"
+    node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
     iface = node.addInterface()
     iface.addAddress(PG.IPv4Address("192.168.1."+str(1+k8s_ip+count), netmask))
     network.addInterface(iface)

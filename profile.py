@@ -16,9 +16,11 @@ import geni.rspec.igext as IG
 import geni.rspec.emulab.spectrum as spectrum
 import geni.rspec.emulab.pnext as pn
 
+
 pc = portal.Context()
 rspec = PG.Request()
 
+COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 
 # Profile parameters.
 pc.defineParameter("machineNum", "Number of Machines",
@@ -228,6 +230,7 @@ for i in range(0,params.machineNum):
     count += 1
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
+    node.component_manager_id = COMP_MANAGER_ID
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware
     iface = node.addInterface()
@@ -248,8 +251,8 @@ for idx, dense_radio in enumerate(params.dense_radios):
 
 for idx, fixed_radio in enumerate(params.fixed_radios_nuc1):
     node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc1"))
-    # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
-    # node.component_manager_id = agg_full_name
+    agg_full_name = "urn:publicid:IDN+{}.powderwireless.net+authority+cm".format(fixed_radio.fe_id)
+    node.component_manager_id = agg_full_name
     node.component_id = "nuc1"
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))
@@ -260,8 +263,8 @@ for idx, fixed_radio in enumerate(params.fixed_radios_nuc1):
 
 for idx, fixed_radio in enumerate(params.fixed_radios_nuc2):
     node = rspec.RawPC("{}-{}".format(fixed_radio.fe_id, "nuc2"))
-    # agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(fixed_radio.fe_id)
-    # node.component_manager_id = agg_full_name
+    agg_full_name = "urn:publicid:IDN+{}.powderwireless.net+authority+cm".format(fixed_radio.fe_id)
+    node.component_manager_id = agg_full_name
     node.component_id = "nuc2"
     node.disk_image = os
     node.addService(PG.Execute(shell="bash", command=profileConfigs +"/local/repository/scripts/configure.sh"))

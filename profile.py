@@ -26,7 +26,7 @@ COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 pc.defineParameter("machineNum", "Number of Machines",
                    portal.ParameterType.INTEGER, 1)
 pc.defineParameter("Hardware", "Machine Hardware",
-                   portal.ParameterType.STRING,"d430",[("d430","d430"),("d710","d710"), ("d820", "d820"), ("pc3000", "pc3000"), ("d740", "d740"), ("d840", "d840")])
+                 portal.ParameterType.NODETYPE,"pc")
 pc.defineParameter("OS", "Operating System",
                    portal.ParameterType.STRING,"ubuntu18",[("ubuntu18","ubuntu18"),("ubuntu20","ubuntu20"), ("ubuntu22", "ubuntu22")])
 
@@ -277,3 +277,4 @@ for idx, fixed_radio in enumerate(params.fixed_radios_nuc2):
 # Print and go!
 #
 pc.printRequestRSpec(rspec)
+ # type: ignore

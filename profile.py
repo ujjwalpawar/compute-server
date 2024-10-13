@@ -230,7 +230,8 @@ for i in range(0,params.machineNum):
     count += 1
     node = rspec.RawPC("node" + str(i))
     node.disk_image = os
-    node.component_manager_id = COMP_MANAGER_ID
+    # node.hardware_type = params.Hardware
+    # node.component_manager_id = COMP_MANAGER_ID
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware
     iface = node.addInterface()

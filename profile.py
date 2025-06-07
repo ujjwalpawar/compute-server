@@ -235,7 +235,8 @@ for i in range(0,params.machineNum):
     node.addService(PG.Execute(shell="bash", command=profileConfigs + "/local/repository/scripts/configure.sh"))
     node.hardware_type = params.Hardware
     iface = node.addInterface()
-    iface.addAddress(PG.IPv4Address("192.168.1."+str(i+1+k8s_ip), netmask))
+    iface.addAddress(PG.IPv4Address("192.168.1."+str((i*2)+1+k8s_ip), netmask))
+    iface.addAddress(PG.IPv4Address("192.168.1."+str((i*2)+1+k8s_ip), netmask))
     network.addInterface(iface)
 
 for idx, dense_radio in enumerate(params.dense_radios):
